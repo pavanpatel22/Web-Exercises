@@ -1,85 +1,329 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acme Landing</title>
-    <meta charset="utf-8">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ===== GENERAL STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background-color: #0D6EFD;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h3 {
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            color: white;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #FFD700;
+        }
+
+        /* ===== SECTIONS ===== */
+        section {
+            padding: 6rem 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        section h4,
+        section h5 {
+            margin-bottom: 1rem;
+        }
+
+        section p {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        /* ===== HOME ===== */
+        #home {
+            background: linear-gradient(to right, #0D6EFD, #6C63FF);
+            color: white;
+            text-align: center;
+        }
+
+        #home h4 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        #home img {
+            width: 90%;
+            max-width: 800px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        #home img:hover {
+            transform: scale(1.03);
+        }
+
+        /* ===== FEATURES ===== */
+        #features {
+            background-color: #fff;
+        }
+
+        #features h5 {
+            font-size: 2.5rem;
+            color: #0D6EFD;
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background-color: #f1f3f6;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-card h6 {
+            color: #6C63FF;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        /* ===== ABOUT ===== */
+        #about {
+            background-color: #f9f9f9;
+        }
+
+        #about h5 {
+            color: #0D6EFD;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        #about p {
+            font-size: 1.1rem;
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        #testimonials {
+            background-color: #fff;
+        }
+
+        #testimonials h5 {
+            font-size: 2.5rem;
+            color: #0D6EFD;
+            margin-bottom: 3rem;
+        }
+
+        .testimonial-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background-color: #f1f3f6;
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 400px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .testimonial-card p:first-child {
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background-color: #0D6EFD;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        footer ul {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        footer ul li a {
+            color: white;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        footer ul li a:hover {
+            color: #FFD700;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            #home img {
+                width: 100%;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonial-grid {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div>
-        <div>
-            <h3>Acme</h3>
+
+    <!-- HEADER -->
+    <header>
+        <h3>Acme</h3>
+        <nav>
             <ul>
                 <li><a href="#features">Features</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#testimonials">Testimonials</a></li>
             </ul>
-        </div>
-    </div>
+        </nav>
+    </header>
 
-    <div id="home">
+    <!-- HOME -->
+    <section id="home">
         <h4>Build Better, Faster.</h4>
         <p>Acme helps you launch projects with a clear, accessible foundation.</p>
+        <img src="https://via.placeholder.com/800x360" alt="Acme in action">
+        <p>A quick look at Acme in action.</p>
+    </section>
 
-        <div>
-            <img src="https://via.placeholder.com/800x360">
-            <p>A quick look at Acme in action.</p>
-        </div>
-    </div>
-
-    <div id="features">
+    <!-- FEATURES -->
+    <section id="features">
         <h5>Our Features</h5>
-
-        <div>
-            <h6>Accessible by Default</h6>
-            <p>We use generic tags so screen readers get confused.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h6>Accessible by Default</h6>
+                <p>We use semantic tags to help screen readers and accessibility tools.</p>
+            </div>
+            <div class="feature-card">
+                <h6>Fast to Learn</h6>
+                <p>Everything is organized clearly with proper hierarchy and spacing.</p>
+            </div>
+            <div class="feature-card">
+                <h6>Built to Scale</h6>
+                <p>Our code structure is scalable and easy to maintain.</p>
+            </div>
         </div>
+    </section>
 
-        <div>
-            <h6>Fast to Learn</h6>
-            <p>Everything looks the same, so no hierarchy is clear.</p>
-        </div>
-
-        <div>
-            <h6>Built to Scale</h6>
-            <p>Div soup is future-proof… or not?</p>
-        </div>
-
-        <div>
-            <p><b>Tip:</b> Headings are random, so the outline doesn't make sense.</p>
-        </div>
-    </div>
-
-    <div id="about">
+    <!-- ABOUT -->
+    <section id="about">
         <h5>About Us</h5>
-        <p>
-            Acme started in <b>2016</b> and we are still going.
-        </p>
-    </div>
+        <p>Acme started in <b>2016</b> and we are still going strong, providing quality solutions to our clients.</p>
+    </section>
 
-    <div id="testimonials">
+    <!-- TESTIMONIALS -->
+    <section id="testimonials">
         <h5>Feedback</h5>
-        <div>
-            <p>“This page is a nightmare for accessibility.”</p>
-            <p>- Alex</p>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p>“This page is a nightmare for accessibility.”</p>
+                <p>- Alex</p>
+            </div>
+            <div class="testimonial-card">
+                <p>“Clean? Not really. Hard to navigate? Yes.”</p>
+                <p>- Sam</p>
+            </div>
         </div>
-        <div>
-            <p>“Clean? Not really. Hard to navigate? Yes.”</p>
-            <p>- Sam</p>
-        </div>
-    </div>
+    </section>
 
-    <div>
+    <!-- FOOTER -->
+    <footer>
         <ul>
             <li><a href="#home">Top</a></li>
             <li><a href="#features">Features</a></li>
         </ul>
-        <p>
-            Acme, 123 Web Ave, Example City · hello@example.com
-        </p>
-        <p>2025 Acme Inc.</p>
-    </div>
+        <p>Acme, 123 Web Ave, Example City · hello@example.com</p>
+        <p>© 2025 Acme Inc.</p>
+    </footer>
+
 </body>
 
 </html>
