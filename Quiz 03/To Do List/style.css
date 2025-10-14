@@ -1,0 +1,217 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+:root {
+  --bg-color: linear-gradient(135deg, #667eea, #764ba2);
+  --card-bg: rgba(255, 255, 255, 0.15);
+  --text-color: #fff;
+  --button-bg: #00c6ff;
+  --button-hover: #0072ff;
+  --completed-color: #8ef08e;
+}
+
+[data-theme="light"] {
+  --bg-color: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --text-color: #333;
+  --button-bg: #4f46e5;
+  --button-hover: #4338ca;
+  --completed-color: #4ade80;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: var(--bg-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: var(--text-color);
+  transition: background 0.4s, color 0.4s;
+}
+
+.todo-container {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 20px;
+  width: 95%;
+  max-width: 600px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.8s ease;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+#theme-toggle {
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+#theme-toggle:hover {
+  transform: rotate(20deg);
+}
+
+.input-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.input-group input,
+.input-group select {
+  padding: 0.6rem 0.8rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  flex: 1;
+}
+
+#add-btn {
+  background: var(--button-bg);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.7rem 1.2rem;
+  transition: 0.3s;
+}
+
+#add-btn:hover {
+  background: var(--button-hover);
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 1rem 0;
+}
+
+.filter-btn {
+  background: transparent;
+  border: 1px solid var(--text-color);
+  color: var(--text-color);
+  border-radius: 10px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+  background: var(--button-bg);
+  border-color: var(--button-bg);
+  color: white;
+}
+
+ul {
+  list-style: none;
+  margin-top: 1rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+li {
+  background: rgba(255, 255, 255, 0.2);
+  margin-bottom: 0.7rem;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  animation: slideIn 0.4s ease;
+  transition: background 0.3s;
+}
+
+li.completed span {
+  text-decoration: line-through;
+  opacity: 0.7;
+  color: var(--completed-color);
+}
+
+li.completed {
+  background: rgba(0, 255, 0, 0.15);
+}
+
+.task-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.task-date {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.task-category {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 8px;
+  background: var(--button-bg);
+  color: white;
+  align-self: flex-start;
+}
+
+.remove-btn {
+  background: transparent;
+  border: none;
+  color: #ff6b6b;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.remove-btn:hover {
+  transform: scale(1.3);
+}
+
+.checkbox {
+  margin-right: 10px;
+  transform: scale(1.3);
+  accent-color: var(--button-bg);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .input-group {
+    flex-direction: column;
+  }
+}

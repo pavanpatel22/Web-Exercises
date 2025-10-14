@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User & Posts Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="main-wrapper">
+    <div class="card">
+      <h1>👤 User & Posts Tracker</h1>
+
+      <form id="userForm">
+        <label for="userId">Enter User ID (1–10):</label>
+        <div class="form-input">
+          <input type="number" id="userId" min="1" max="10" required placeholder="e.g. 3">
+          <button type="submit">Search</button>
+        </div>
+      </form>
+
+      <div id="user-info" class="fade"></div>
+    </div>
+  </div>
+
+  <!-- Floating Session Icon -->
+  <div id="session-fab" title="Open Session Log">
+    <span>🕒</span>
+  </div>
+
+  <!-- Floating Panel -->
+  <div id="session-panel">
+    <div class="session-header">
+      <h3>Session Activity</h3>
+      <button id="close-panel">✕</button>
+    </div>
+    <ul id="activity-list"></ul>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
