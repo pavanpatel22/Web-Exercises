@@ -1,19 +1,22 @@
 /**
- * Library Management System – Data Module
- * ----------------------------------------------------
- * Demonstrates clean data modeling and modern ES6+ JavaScript techniques:
- * - Arrays, Maps, Sets
- * - Filtering and grouping
- * - Destructuring, optional chaining
- * - Generator functions
- * ----------------------------------------------------
+ * ---------------------------------------------------------------------------
+ * Data Module — Library Management System
+ * ---------------------------------------------------------------------------
+ * Purpose:
+ *   - Serves as the centralized data layer for the Library System.
+ *   - Demonstrates modern JavaScript capabilities:
+ *       → Maps and Sets
+ *       → Destructuring and optional chaining
+ *       → Generators
+ *       → Template literals
+ * ---------------------------------------------------------------------------
  * Author: Pavan Patel
- * Version: 1.0
+ * Date: October 2025
  */
 
-// ---------------------------------------------
-// Sample Data: Book Collection
-// ---------------------------------------------
+// ---------------------------------------------------------------------------
+// 📚 Sample Book Data (Clean, realistic dataset)
+// ---------------------------------------------------------------------------
 export const books = [
   {
     id: 1,
@@ -34,10 +37,10 @@ export const books = [
   {
     id: 3,
     title: "Design Patterns",
-    author: "Gang of Four",
+    author: "Erich Gamma et al.",
     year: 1994,
     genre: "Software Engineering",
-    // Note: Availability intentionally omitted to test optional chaining
+    // Note: Availability intentionally omitted to simulate missing data
   },
   {
     id: 4,
@@ -47,75 +50,74 @@ export const books = [
     genre: "Programming",
     availability: { status: "available", location: "A2-15" },
   },
+  {
+    id: 5,
+    title: "Refactoring",
+    author: "Martin Fowler",
+    year: 2018,
+    genre: "Software Engineering",
+    availability: { status: "available", location: "B3-02" },
+  },
 ];
 
-// ---------------------------------------------
-// Book Categories (Map) & Unique Authors (Set)
-// ---------------------------------------------
-
-/**
- * Map: Category Descriptions
- * Represents different genres and their meaning in a readable format.
- */
+// ---------------------------------------------------------------------------
+// 🗂️ Category Descriptions (Map)
+// ---------------------------------------------------------------------------
+// Maps genre names to human-readable descriptions.
 export const categoryDescriptions = new Map([
-  ["Programming", "Books about programming languages, paradigms, and techniques."],
-  ["Software Engineering", "Books focused on software design, patterns, and architecture."],
+  [
+    "Programming",
+    "Books focusing on coding practices, software craftsmanship, and language fluency.",
+  ],
+  [
+    "Software Engineering",
+    "Works exploring design patterns, architecture principles, and system scalability.",
+  ],
 ]);
 
-/**
- * Set: Unique Authors
- * Extracted using Array.map() + spread syntax for a clean, immutable result.
- */
-export const uniqueAuthors = new Set([...books.map((book) => book.author)]);
+// ---------------------------------------------------------------------------
+// ✍️ Unique Author Set (Set)
+// ---------------------------------------------------------------------------
+// Extracts all distinct author names using the spread operator.
+export const uniqueAuthors = new Set([...books.map(({ author }) => author)]);
 
-// ---------------------------------------------
-// Utility Functions
-// ---------------------------------------------
+// ---------------------------------------------------------------------------
+// 🔍 Utility Functions
+// ---------------------------------------------------------------------------
 
 /**
- * Filters books by their availability status (e.g., "available", "checked_out").
- * Safely handles cases where availability data may be missing.
- *
+ * Filters books by their availability status.
  * @param {Array} bookArray - Array of book objects
- * @param {string} status - Desired status to filter by
- * @returns {Array} Filtered array of books matching the given status
+ * @param {string} status - Desired status ('available' or 'checked_out')
+ * @returns {Array} Filtered list of books
  */
 export function filterBooksByStatus(bookArray, status) {
-  if (!Array.isArray(bookArray)) return [];
-
   return bookArray.filter(
     (book) => book.availability?.status?.toLowerCase() === status.toLowerCase()
   );
 }
 
 /**
- * Groups books by genre and stores them in a Map.
- *
+ * Groups books by genre using Map (preserves insertion order).
  * @param {Array} bookArray - Array of book objects
- * @returns {Map} Map where keys are genres and values are arrays of books
+ * @returns {Map<string, Array>} Genre → Array of books
  */
 export function groupBooksByGenre(bookArray) {
   const grouped = new Map();
-
   for (const book of bookArray) {
     const { genre } = book;
-    if (!grouped.has(genre)) {
-      grouped.set(genre, []);
-    }
+    if (!grouped.has(genre)) grouped.set(genre, []);
     grouped.get(genre).push(book);
   }
-
   return grouped;
 }
 
-// ---------------------------------------------
-// Generator and Summary Helpers
-// ---------------------------------------------
+// ---------------------------------------------------------------------------
+// 🧠 Advanced JavaScript Demonstrations
+// ---------------------------------------------------------------------------
 
 /**
- * Generator that yields each book title in the collection.
- * Can be iterated using for...of or spread syntax.
- *
+ * Generator function that yields book titles lazily.
  * @param {Array} bookArray - Array of book objects
  */
 export function* bookTitleGenerator(bookArray) {
@@ -125,43 +127,34 @@ export function* bookTitleGenerator(bookArray) {
 }
 
 /**
- * Creates a formatted summary for a given book.
- * Demonstrates destructuring, optional chaining, and template literals.
- *
- * @param {Object} book - A single book object
- * @returns {string} Formatted summary string
- *
+ * Creates a clean, readable summary string for a book.
+ * @param {Object} book - Book object
+ * @returns {string} Formatted summary
  * Example:
- * "The Clean Coder by Robert C. Martin (2011) - Available at A1-23"
+ *   "The Clean Coder by Robert C. Martin (2011) — Available at A1-23"
  */
 export function createBookSummary(book) {
-  if (!book) return "Invalid book data.";
-
   const {
     title,
     author,
     year,
-    availability: { status = "unknown", location, dueDate } = {},
+    availability: { status, location, dueDate } = {},
   } = book;
 
-  const statusText =
+  const availabilityText =
     status === "available"
-      ? `Available at ${location}`
+      ? `Available at ${location ?? "Unknown Location"}`
       : status === "checked_out"
-      ? `Checked out (due ${dueDate})`
-      : "Status unknown";
+      ? `Checked out, due on ${dueDate ?? "N/A"}`
+      : "Status Unknown";
 
-  return `${title} by ${author} (${year}) - ${statusText}`;
+  return `${title} by ${author} (${year}) — ${availabilityText}`;
 }
 
-// ---------------------------------------------
-// Example Usage (Optional Demo)
-// ---------------------------------------------
-// Uncomment below lines to test functionality in Node or browser console:
+// ---------------------------------------------------------------------------
+// 🧩 Demonstration: Logging Metadata (for fun)
+// ---------------------------------------------------------------------------
 
-// console.log("Unique Authors:", uniqueAuthors);
-// console.log("Available Books:", filterBooksByStatus(books, "available"));
-// console.log("Grouped Books:", groupBooksByGenre(books));
-// console.log("Summaries:");
-// for (const book of books) console.log(createBookSummary(book));
-// console.log("Book Titles:", [...bookTitleGenerator(books)]);
+console.log("📚 Loaded Book Data:", books.length, "records");
+console.log("🗂️ Categories:", [...categoryDescriptions.keys()].join(", "));
+console.log("👨‍💻 Unique Authors:", [...uniqueAuthors].join(", "));

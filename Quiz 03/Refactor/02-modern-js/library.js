@@ -1,178 +1,148 @@
 /**
- * Library Management Module
- * -------------------------------------------------------
- * Demonstrates modern JavaScript class patterns and features:
- * - Private fields and encapsulation
- * - Rest/spread operators
- * - Destructuring and optional chaining
- * - Logical assignment operators
- * - Higher-order functions and memoization
- * -------------------------------------------------------
+ * ---------------------------------------------------------------------------
+ * Library Manager Module — Library Management System
+ * ---------------------------------------------------------------------------
+ * Features:
+ *   - Class-based design with private fields and modern JS practices
+ *   - Methods for adding, searching, updating, and analyzing books
+ *   - Demonstrates higher-order functions and memoization
+ * ---------------------------------------------------------------------------
  */
 
-import {
-  books,
-  categoryDescriptions,
-  uniqueAuthors,
-  filterBooksByStatus,
-  groupBooksByGenre,
-} from "./data.js";
+import { books } from './data.js';
 
-/**
- * LibraryManager
- * -------------------------------------------------------
- * Encapsulates book operations and library analytics.
- */
 export class LibraryManager {
-  #statistics = {}; // private state
+  // Private field to hold computed statistics
+  #statistics = {};
 
+  /**
+   * Initializes the library manager with an initial set of books
+   * @param {Array} initialBooks
+   */
   constructor(initialBooks = []) {
     this.books = [...initialBooks]; // shallow copy
     this.#updateStatistics();
   }
 
+  // -------------------------------------------------------------------------
+  // 📖 Book Management
+  // -------------------------------------------------------------------------
+
   /**
-   * Adds one or more books to the library.
-   * Automatically refreshes statistics after insertion.
-   *
-   * @param  {...Object} newBooks - Book objects to add
+   * Adds multiple books at once
+   * @param  {...Object} newBooks
    */
   addBooks(...newBooks) {
     if (!newBooks.length) return;
     this.books.push(...newBooks);
+    console.log(`🟢 Added ${newBooks.length} book(s) to the library.`);
     this.#updateStatistics();
   }
 
   /**
-   * Searches the book collection by title, author, or genre.
-   * Supports case-insensitive search and partial matches.
-   *
-   * @param {Object} query - { title, author, genre }
-   * @param {boolean} caseSensitive - Match case if true
-   * @returns {Array} Filtered book list
+   * Searches books by optional criteria
+   * @param {Object} param0 - {title, author, genre}
+   * @param {boolean} caseSensitive - Whether search should be case-sensitive
+   * @returns {Array} Matching books
    */
   searchBooks({ title, author, genre } = {}, caseSensitive = false) {
-    const normalize = (str) =>
-      caseSensitive ? str : str?.toLowerCase?.() ?? "";
-
-    const t = normalize(title);
-    const a = normalize(author);
-    const g = normalize(genre);
-
     return this.books.filter((book) => {
-      const matchTitle = t
-        ? normalize(book.title).includes(t)
-        : true;
-      const matchAuthor = a
-        ? normalize(book.author).includes(a)
-        : true;
-      const matchGenre = g
-        ? normalize(book.genre).includes(g)
-        : true;
-
-      return matchTitle && matchAuthor && matchGenre;
+      const matches = [];
+      if (title) {
+        matches.push(
+          caseSensitive
+            ? book.title === title
+            : book.title.toLowerCase().includes(title.toLowerCase())
+        );
+      }
+      if (author) {
+        matches.push(
+          caseSensitive
+            ? book.author === author
+            : book.author.toLowerCase().includes(author.toLowerCase())
+        );
+      }
+      if (genre) {
+        matches.push(
+          caseSensitive
+            ? book.genre === genre
+            : book.genre.toLowerCase() === genre.toLowerCase()
+        );
+      }
+      return matches.every(Boolean); // all criteria must match
     });
   }
 
+  // -------------------------------------------------------------------------
+  // 📊 Statistics
+  // -------------------------------------------------------------------------
+
   /**
-   * Returns computed statistics for the library:
-   * total, available, and checked-out counts.
-   *
-   * @returns {Object} statistics
+   * Returns current statistics for the library
+   * @returns {Object} {total, available, checkedOut}
    */
   getStatistics() {
-    this.#updateStatistics();
     return { ...this.#statistics };
   }
 
   /**
-   * Updates book details using logical assignment operators.
-   *
-   * @param {Object} book - Existing book object
-   * @param {Object} updates - Fields to update
+   * Updates book properties safely using logical assignment operators
+   * @param {Object} book - Book object reference
+   * @param {Object} updates - Partial updates (title, author, availability, etc.)
    */
   updateBook(book, updates) {
     if (!book || !updates) return;
-
-    // Logical assignment examples:
-    book.title ??= updates.title;
+    book.title ||= updates.title;
     book.author ||= updates.author;
-    book.genre &&= updates.genre;
+    book.genre ||= updates.genre;
+    book.year ??= updates.year;
 
-    // Update availability safely
+    // Merge availability carefully
     if (updates.availability) {
-      book.availability = {
-        ...book.availability,
-        ...updates.availability,
-      };
+      book.availability ||= {};
+      book.availability.status ||= updates.availability.status;
+      book.availability.location ||= updates.availability.location;
+      book.availability.dueDate ||= updates.availability.dueDate;
     }
 
     this.#updateStatistics();
+    console.log(`✏️ Updated book: ${book.title}`);
   }
 
-  /**
-   * Creates a reusable formatter function for books.
-   * Accepts a formatter callback to customize output.
-   *
-   * @param {Function} formatter - Callback(book) => formatted output
-   * @returns {Function} (bookArray) => formattedResults
-   */
-  createBookFormatter(formatter) {
-    return (bookArray) => bookArray.map(formatter);
-  }
+  // -------------------------------------------------------------------------
+  // 🧮 Internal Helpers
+  // -------------------------------------------------------------------------
 
   /**
-   * Memoizes expensive computations like filters or aggregations.
-   * Uses a Map cache keyed by serialized arguments.
-   *
-   * @param {Function} fn - Function to memoize
-   * @returns {Function} Memoized version
-   */
-  memoize(fn) {
-    const cache = new Map();
-    return (...args) => {
-      const key = JSON.stringify(args);
-      if (cache.has(key)) return cache.get(key);
-      const result = fn(...args);
-      cache.set(key, result);
-      return result;
-    };
-  }
-
-  /**
-   * Internal: Updates statistics whenever the dataset changes.
-   * Uses private field (#statistics) for encapsulation.
+   * Recalculates statistics and stores in private field
    */
   #updateStatistics() {
+    const total = this.books.length;
     const available = this.books.filter(
-      (b) => b.availability?.status === "available"
+      (b) => b.availability?.status === 'available'
     ).length;
     const checkedOut = this.books.filter(
-      (b) => b.availability?.status === "checked_out"
+      (b) => b.availability?.status === 'checked_out'
     ).length;
 
-    this.#statistics = {
-      total: this.books.length,
-      available,
-      checkedOut,
-    };
+    this.#statistics = { total, available, checkedOut };
   }
 }
 
-// -------------------------------------------------------
-// Utility functions (standalone helpers)
-// -------------------------------------------------------
+// -------------------------------------------------------------------------
+// 🧩 Higher-Order Utilities
+// -------------------------------------------------------------------------
 
 /**
- * Returns a higher-order formatter function.
- * Example usage:
- *   const simpleFormatter = createBookFormatter(b => `${b.title} by ${b.author}`);
+ * Returns a function that applies a formatter to an array of books
+ * @param {Function} formatter - Function that formats a single book
  */
 export const createBookFormatter = (formatter) => (bookArray) =>
-  Array.isArray(bookArray) ? bookArray.map(formatter) : [];
+  bookArray.map(formatter);
 
 /**
- * Generic memoization utility using Map cache.
+ * Memoization utility to cache expensive function results
+ * @param {Function} fn
  */
 export const memoize = (fn) => {
   const cache = new Map();
@@ -185,7 +155,9 @@ export const memoize = (fn) => {
   };
 };
 
-// -------------------------------------------------------
-// Default Export: Preloaded library instance
-// -------------------------------------------------------
+// -------------------------------------------------------------------------
+// 🚀 Default Library Instance
+// -------------------------------------------------------------------------
+
 export default new LibraryManager(books);
+
