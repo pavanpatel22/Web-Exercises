@@ -10,13 +10,28 @@ const filterButtons = document.querySelectorAll(".filter-btn");
 let tasks = JSON.parse(localStorage.getItem("todos")) || [];
 displayTasks();
 
-// Add task
+// Add task with validation
 addBtn.addEventListener("click", () => {
   const text = input.value.trim();
   const due = dateInput.value;
   const category = categoryInput.value;
 
-  if (text === "") return;
+  // Validate empty task
+  if (text === "") {
+    alert("⚠️ Task name cannot be empty!");
+    return;
+  }
+
+  // Validate past date
+  if (due) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // ignore time
+    const dueDate = new Date(due);
+    if (dueDate < today) {
+      alert("⚠️ You cannot select a past date!");
+      return;
+    }
+  }
 
   const newTask = {
     text,
@@ -29,6 +44,8 @@ addBtn.addEventListener("click", () => {
   tasks.push(newTask);
   sortTasks();
   saveAndRender();
+
+  // Clear inputs
   input.value = "";
   dateInput.value = "";
 });
@@ -141,4 +158,5 @@ function checkReminders() {
     }
   });
 }
+
 setInterval(checkReminders, 60 * 60 * 1000); // check every hour
