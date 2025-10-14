@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Card Demo</title>
+  <script type="module" src="product-card.js"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      padding: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <product-card name="Wireless Headphones" price="129.99">
+    <img slot="image" src="https://images.unsplash.com/photo-1580894894513-cf59b5f6efc4" alt="Headphones">
+    <p slot="description">Experience immersive sound and premium comfort fit with noise cancellation.</p>
+  </product-card>
+
+  <product-card name="Smartwatch Pro" price="199.99">
+    <img slot="image" src="https://images.unsplash.com/photo-1517411032315-54ef2cb783bb" alt="Smartwatch">
+    <p slot="description">Track your health, fitness, and stay connected with modern style.</p>
+  </product-card>
+
+  <script>
+    document.addEventListener("purchase", e => {
+      alert(`🛒 You purchased: ${e.detail.name} for $${e.detail.price}`);
+    });
+  </script>
+</body>
+</html>
