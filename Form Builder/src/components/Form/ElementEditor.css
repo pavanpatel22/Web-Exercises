@@ -1,0 +1,55 @@
+.element-editor {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.editor-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+.editor-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.editor-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.editor-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.option-item {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.option-item > :first-child {
+  flex: 1;
+}
+
+.add-option-btn {
+  align-self: flex-start;
+}

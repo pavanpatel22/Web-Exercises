@@ -1,0 +1,126 @@
+.sidebar {
+  width: 280px;
+  background: white;
+  border-right: 1px solid #e2e8f0;
+  height: 100vh;
+  overflow-y: auto;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 1rem;
+  z-index: 40;
+}
+
+.sidebar-section {
+  margin-bottom: 2rem;
+}
+
+.sidebar-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  margin-bottom: 0.75rem;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.sidebar-nav-item:hover {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.sidebar-nav-item-active {
+  background: #3b82f6;
+  color: white;
+}
+
+.forms-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.forms-list-item {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: #334155;
+  transition: all 0.2s;
+  border: 1px solid #e2e8f0;
+}
+
+.forms-list-item:hover {
+  background: #f8fafc;
+  border-color: #3b82f6;
+}
+
+.forms-list-item-active {
+  background: #eff6ff;
+  border-color: #3b82f6;
+}
+
+.form-item-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-title {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.form-meta {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+}
+
+.elements-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.element-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  background: white;
+  color: #334155;
+  cursor: grab;
+  transition: all 0.2s;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.element-card:hover {
+  border-color: #3b82f6;
+  background: #f8fafc;
+  transform: translateY(-1px);
+}
+
+.element-card:active {
+  cursor: grabbing;
+}
